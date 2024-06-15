@@ -32,7 +32,7 @@ alter table employee modify Dno int not null default 1;
 
 desc employee;
 
-create table departament(
+create table department(
 	Dname varchar(15) not null,
     Dnumber int not null,
     Mgr_ssn char(9) not null,
@@ -44,26 +44,26 @@ create table departament(
     foreign key (Mgr_ssn) references employee(Ssn)
 );
 
--- 'def', 'company_constraints', 'departament_ibfk_1', 'company_constraints', 'departament', 'FOREIGN KEY', 'YES'
+-- 'def', 'company_constraints', 'department_ibfk_1', 'company_constraints', 'department', 'FOREIGN KEY', 'YES'
 -- modificar uma constraint: drop e add
-alter table departament drop  departament_ibfk_1;
-alter table departament 
+alter table department drop  department_ibfk_1;
+alter table department 
 		add constraint fk_dept foreign key(Mgr_ssn) references employee(Ssn)
         on update cascade;
 
-desc departament;
+desc department;
 
 create table dept_locations(
 	Dnumber int not null,
 	Dlocation varchar(15) not null,
     constraint pk_dept_locations primary key (Dnumber, Dlocation),
-    constraint fk_dept_locations foreign key (Dnumber) references departament (Dnumber)
+    constraint fk_dept_locations foreign key (Dnumber) references department (Dnumber)
 );
 
 alter table dept_locations drop fk_dept_locations;
 
 alter table dept_locations 
-	add constraint fk_dept_locations foreign key (Dnumber) references departament(Dnumber)
+	add constraint fk_dept_locations foreign key (Dnumber) references department(Dnumber)
 	on delete cascade
     on update cascade;
 
@@ -74,7 +74,7 @@ create table project(
     Dnum int not null,
     primary key (Pnumber),
     constraint unique_project unique (Pname),
-    constraint fk_project foreign key (Dnum) references departament(Dnumber)
+    constraint fk_project foreign key (Dnum) references department(Dnumber)
 );
 
 

@@ -1,6 +1,7 @@
 use company_constraints;
 
-insert into employee values ('John', 'B', 'Smith', 123456789, '1965-01-09', '731-Fondren-Houston-TX', 'M', 30000, 333445555, 5),
+insert into employee 
+values ('John', 'B', 'Smith', 123456789, '1965-01-09', '731-Fondren-Houston-TX', 'M', 30000, 333445555, 5),
 							('Franklin', 'T', 'Wong', 333445555, '1955-12-08', '638-Voss-Houston-TX', 'M', 40000, 888665555, 5),
                             ('Alicia', 'J', 'Zelaya', 999887777, '1968-01-19', '3321-Castle-Spring-TX', 'F', 25000, 987654321, 4),
                             ('Jennifer', 'S', 'Wallace', 987654321, '1941-06-20', '291-Berry-Bellaire-TX', 'F', 43000, 888665555, 4),
@@ -17,7 +18,7 @@ insert into dependent values (333445555, 'Alice', 'F', '1986-04-05', 'Daughter')
                              (123456789, 'Alice', 'F', '1988-12-30', 'Daughter'),
                              (123456789, 'Elizabeth', 'F', '1967-05-05', 'Spouse');
 
-insert into departament values ('Research', 5, 333445555, '1988-05-22','1986-05-22'),
+insert into department values ('Research', 5, 333445555, '1988-05-22','1986-05-22'),
 							   ('Administration', 4, 987654321, '1995-01-01','1994-01-01'),
                                ('Headquarters', 1, 888665555,'1981-06-19','1980-06-19');
 
@@ -55,16 +56,17 @@ insert into works_on values (123456789, 1, 32.5),
 -- Consultas SQL
 
 select * from employee;
-select Ssn, count(Essn) from employee e, dependent d where (e.Ssn = d.Essn);
+select Ssn, count(Essn) from employee e, dependent d where (e.Ssn = d.Essn) group by e.Ssn;
+select Ssn, count(Essn) from employee e, dependent d where (e.Ssn = d.Essn) group by d.Essn;
 select * from dependent;
 
 SELECT Bdate, Address FROM employee
 WHERE Fname = 'John' AND Minit = 'B' AND Lname = 'Smith';
 
-select * from departament where Dname = 'Research';
+select * from department where Dname = 'Research';
 
 SELECT Fname, Lname, Address
-FROM employee, departament
+FROM employee, department
 WHERE Dname = 'Research' AND Dnumber = Dno;
 
 select * from project;
@@ -83,11 +85,11 @@ select Dname as Department, concat(Fname, ' ', Lname) from departament d, dept_l
 where d.Dnumber = l.Dnumber and Mgr_ssn = e.Ssn;
 
 -- recuperando info dos projetos em Stafford
-select * from project, departament where Dnum = Dnumber and Plocation = 'Stafford';
+select * from project, department where Dnum = Dnumber and Plocation = 'Stafford';
 
 -- recuperando info sobre os departamentos e projetos localizados em Stafford
 SELECT Pnumber, Dnum, Lname, Address, Bdate
-FROM project, departament, employee
+FROM project, department, employee
 WHERE Dnum = Dnumber AND Mgr_ssn = Ssn AND
 Plocation = 'Stafford';
 
